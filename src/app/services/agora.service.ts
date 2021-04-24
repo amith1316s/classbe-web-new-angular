@@ -57,6 +57,27 @@ export class AgoraService {
     console.log('publish success!');
   }
 
+  async leaveCall() {
+    // Destroy the local audio and video tracks.
+    if (this.rtc.localAudioTrack) {
+      this.rtc.localAudioTrack.close();
+    }
+
+    if (this.rtc.localVideoTrack) {
+      this.rtc.localVideoTrack.close();
+    }
+
+    // Traverse all remote users.
+    this.rtc.client.remoteUsers.forEach((user) => {
+      // Destroy the dynamically created DIV container.
+      const playerContainer = document.getElementById(user.uid);
+      playerContainer && playerContainer.remove();
+    });
+
+    // Leave the channel.
+    await this.rtc.client.leave();
+  }
+
   // onRemote() {
   //   return this.rtc.client.on(
   //     'user-published',

@@ -50,4 +50,12 @@ export class AppComponent implements OnInit {
       }
     });
   }
+
+  async start() {
+    await this.agora.startBasicCall();
+  }
+  
+  async leave() {
+    await this.agora.leaveCall();
+  }
 }
