@@ -42,10 +42,14 @@ export class AgoraService {
 
     // Publish the local audio and video tracks to the channel.
     try {
-      await this.rtc.client.publish([
-        this.rtc.localAudioTrack,
-        this.rtc.localVideoTrack,
-      ]);
+      const tracks = [];
+      if (this.rtc.localAudioTrack) {
+        tracks.push(this.rtc.localAudioTrack);
+      }
+      if (this.rtc.localVideoTrack) {
+        tracks.push(this.rtc.localVideoTrack);
+      }
+      await this.rtc.client.publish(tracks);
     } catch (error) {
       console.log('Publish error', error);
     }
